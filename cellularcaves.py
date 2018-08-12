@@ -47,7 +47,7 @@ def automataIteration(grid, minCount):
 def main():
     width = int(input("Enter the width: "))
     height = int(input("Enter the height: "))
-    #chance = 100 - int(input("Enter the chance of randomly generating a wall: "))
+    #chance = 100 - int(input("Enter the percentage chance of randomly generating a wall: "))
     #count = int(input("Enter the min count of surrounding walls for the automata rules: "))
     chance = 45
     count = 5
