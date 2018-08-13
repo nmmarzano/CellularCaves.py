@@ -29,7 +29,7 @@ def populateGrid(grid, chance):
                 grid[i][j]=1
     return grid
 
-def automataIteration(grid, minCount):
+def automataIteration(grid, minCount, makePillars):
     new_grid = [row[:] for row in grid]
     for i in range(1, len(grid)-1):
         for j in range(1, len(grid[0])-1):
@@ -38,7 +38,7 @@ def automataIteration(grid, minCount):
                 for l in range(-1,2):
                     if grid[i+k][j+l]==1:
                         count+=1
-            if count>=minCount:
+            if count>=minCount or (count==0 and makePillars==1):
                 new_grid[i][j]=1
             else:
                 new_grid[i][j]=0
@@ -49,9 +49,10 @@ def main():
     height = int(input("Enter the height: "))
     #chance = 100 - int(input("Enter the percentage chance of randomly generating a wall: "))
     #count = int(input("Enter the min count of surrounding walls for the automata rules: "))
-    chance = 45
+    chance = 40
     count = 5
-    iterations = int(input("Enter the number of iterations: "))
+    iterations = int(input("Enter the number of regular iterations: "))
+    pillarIterations = int(input("Enter the number of pillar-generating iterations: "))
 
     grid = makeGrid(width, height)
     
@@ -59,9 +60,14 @@ def main():
     grid = populateGrid(grid, chance)
     printGrid(grid, '# ', '· ')
 
+    for i in range(pillarIterations):
+        print("{0} iteration(s) of automata with pillars:".format(i+1))
+        grid = automataIteration(grid, count, 1)
+        printGrid(grid, '# ', '· ')
+
     for i in range(iterations):
-        print("{0} iteration(s) of automata:".format(i+1))
-        grid = automataIteration(grid, count)
+        print("{0} iteration(s) of regular automata:".format(i+1))
+        grid = automataIteration(grid, count, 0)
         printGrid(grid, '# ', '· ')
 
     print("")
