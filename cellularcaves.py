@@ -1,5 +1,6 @@
 import sys
 import random
+from collections import deque
 
 def printGrid(grid, wallChar, emptyChar):
     finalstr = ""
@@ -44,6 +45,30 @@ def automataIteration(grid, minCount, makePillars):
                 new_grid[i][j]=0
     return new_grid
 
+def floodFindEmpty(grid):
+    new_grid = [[1 for x in range(len(grid[0]))] for y in range(len(grid))]
+    unvisited = deque([])
+
+    #find a random empty space, hope it's the biggest cave
+    randx = random.randint(0,len(grid)-1)
+    randy = random.randint(0,len(grid[0])-1)
+    while(grid[randx][randy] == 1):
+        randx = random.randint(0,len(grid)-1)
+        randy = random.randint(0,len(grid[0])-1)
+
+    unvisited.append([randx, randy])
+    while len(unvisited)>0:
+        current = unvisited.popleft()
+        new_grid[current[0]][current[1]] = 0
+        for k in range(-1,2):
+            for l in range(-1,2):
+                if current[0]+k >= 0 and current[0]+k<len(grid) and current[1]+l >= 0 and current[1]+l < len(grid[0]): #if we're not out of bounds
+                    if grid[current[0]+k][current[1]+l]==0: #if it's an empty space
+                        grid[current[0]+k][current[1]+l]=2 #mark visited
+                        unvisited.append([current[0]+k, current[1]+l])
+    
+    return new_grid
+
 def main():
     width = int(input("Enter the width: "))
     height = int(input("Enter the height: "))
@@ -69,6 +94,10 @@ def main():
         print("{0} iteration(s) of regular automata:".format(i+1))
         grid = automataIteration(grid, count, 0)
         printGrid(grid, '# ', '· ')
+
+    print("\nAfter flood algorithm to find the biggest cave:")
+    grid = floodFindEmpty(grid)
+    printGrid(grid, '# ', '· ')
 
     print("")
     main()
