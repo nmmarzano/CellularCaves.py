@@ -48,6 +48,7 @@ def automataIteration(grid, minCount, makePillars):
 def floodFindEmpty(grid):
     new_grid = [[1 for x in range(len(grid[0]))] for y in range(len(grid))]
     unvisited = deque([])
+    open_count = 0
 
     #find a random empty space, hope it's the biggest cave
     randx = random.randint(0,len(grid)-1)
@@ -65,9 +66,10 @@ def floodFindEmpty(grid):
                 if current[0]+k >= 0 and current[0]+k<len(grid) and current[1]+l >= 0 and current[1]+l < len(grid[0]): #if we're not out of bounds
                     if grid[current[0]+k][current[1]+l]==0: #if it's an empty space
                         grid[current[0]+k][current[1]+l]=2 #mark visited
+                        open_count += 1
                         unvisited.append([current[0]+k, current[1]+l])
     
-    return new_grid
+    return new_grid, open_count
 
 def main():
     width = int(input("Enter the width: "))
@@ -96,8 +98,9 @@ def main():
         printGrid(grid, '# ', '· ')
 
     print("\nAfter flood algorithm to find the biggest cave:")
-    grid = floodFindEmpty(grid)
+    grid, open_count = floodFindEmpty(grid)
     printGrid(grid, '# ', '· ')
+    print("Percentage of open space: {0}%".format(open_count*100/(width*height))) #above 40% seems to be a good target
 
     print("")
     main()
