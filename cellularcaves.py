@@ -87,7 +87,7 @@ def main():
     iterations = int(input("Enter the number of regular iterations: "))
     pillarIterations = int(input("Enter the number of pillar-generating iterations: "))
     floodTries = 5
-    goalPercentage = 30 #above 30% seems to be a good target
+    goalPercentage = 30 # above 30% seems to be a good target
 
     grid = makeGrid(width, height)
     
@@ -113,6 +113,8 @@ def main():
         print("Percentage of open space: {0}%".format(percentage)) 
         printGrid(grid, '# ', '· ')
 
+    # self reminder to try checking map size https://stackoverflow.com/questions/1331471/in-memory-size-of-a-python-structure
+        
     print("")
     main()
     
