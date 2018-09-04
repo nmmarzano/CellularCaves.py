@@ -24,9 +24,9 @@ def makeGrid(width, height):
     return newgrid
 
 def populateGrid(grid, chance):
-    for i in range(len(grid)):
+    for i in range(len(grid)): # reminder to test with: for index, value in enumerate(grid)
         for j in range(len(grid[0])):
-            if(random.randint(0,100)<=chance):
+            if(random.randint(0,100)<=chance): # test with list comprehension instead??
                 grid[i][j]=1
     return grid
 
